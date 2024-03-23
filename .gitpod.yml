@@ -1,0 +1,30 @@
+image:
+  file: .gitpod.Dockerfile
+ports:
+  - port: 5900
+    onOpen: ignore
+  - port: 6080
+    onOpen: open-browser
+
+vscode:
+  extensions:
+    - DotJoshJohnson.xml
+    - vscjava.vscode-java-pack
+    - vscjava.vscode-java-debug
+    - vscjava.vscode-java-dependency
+    - vscjava.vscode-java-test
+    - redhat.java
+
+tasks:
+  - name: robocode project build with maven
+    before: |
+      code --install-extension redhat.java
+      code --install-extension vscjava.vscode-java-pack
+      code --install-extension DotJoshJohnson.xml
+    init: |
+      mvn install -DskipTests=false
+      echo 'export ROBO_ROOT="$(pwd)"' >> ~/.bashrc
+      exec $SHELL
+    command: |
+      mvn clean install
+
